@@ -1,1 +1,61 @@
+package skillLab;
+
+class TreeNode {
+    int data;
+    TreeNode left, right;
+
+    TreeNode(int value) {
+        data = value;
+        left = right = null;
+    }
+}
+
+class BST {
+    TreeNode root;
+    int count = 0;
+
+    // In-order traversal to find Kth smallest element
+    TreeNode kthSmallest(TreeNode node, int k) {
+        if (node == null) return null;
+
+        // Search in left subtree
+        TreeNode left = kthSmallest(node.left, k);
+
+        if (left != null) return left; // Kth element found in left subtree
+
+        count++;
+        if (count == k) return node; // Found the Kth smallest element
+
+        // Search in right subtree
+        return kthSmallest(node.right, k);
+    }
+
+    // Utility method to call kthSmallest
+    void findKthSmallest(int k) {
+        count = 0;  // Reset count for each search
+        TreeNode result = kthSmallest(root, k);
+        
+        if (result != null) {
+            System.out.println("Kth Smallest Element is: " + result.data);
+        } else {
+            System.out.println("The tree has fewer than " + k + " elements.");
+        }
+    }
+
+    public static void main(String[] args) {
+        BST tree = new BST();
+
+        // Sample BST structure
+        tree.root = new TreeNode(50);
+        tree.root.left = new TreeNode(30);
+        tree.root.right = new TreeNode(70);
+        tree.root.left.left = new TreeNode(20);
+        tree.root.left.right = new TreeNode(40);
+        tree.root.right.left = new TreeNode(60);
+        tree.root.right.right = new TreeNode(80);
+
+        int k = 3;  // Example: Find 3rd smallest element
+        tree.findKthSmallest(k);
+    }
+}
 
